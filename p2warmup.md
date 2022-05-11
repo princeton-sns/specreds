@@ -1,6 +1,6 @@
-## Step 2: Warming up
+## Part 2: Warming up
 
-Let us first go through some warm-up examples to get familiar with the Ceph storage layer as well as the super and collapse APIs. In this section, we will be learning the following commands: 
+Let us first go through some warm-up examples to get familiar with the Ceph storage layer as well as the super and collapse APIs. In this section, we will be learning the following commands and use them throughout this artifact: 
 
 	ceph -s         # display the ceph cluster status
 	rbd create      # creates a disk image
@@ -11,7 +11,7 @@ Let us first go through some warm-up examples to get familiar with the Ceph stor
 
 To do so, we will be using a simple example to go through the workflow in speculative recovery. We will first start a Ceph cluster and create a disk image. Then, we will map the parent version of this disk image as a block device and do some file operations (pretending to be the primary application instance). Next, we will switch to the child version of the disk by using super and do some more file operations (pretending to be the backup instance). Finally, we will use collapse to deallocate one of the versions.
 
-Now let us begin. First, change to the working directory:
+Now let us begin. First, change to the Ceph build directory:
 
 	cd /mnt/specreds/ceph/build
 
@@ -19,7 +19,7 @@ Now let us begin. First, change to the working directory:
 
 Ceph provides a script to start up a test cluster locally: 
 
-	./start.sh 
+	./start-new.sh 
 
 This starts up a cluster with three OSDs (the storage servers) each of which manages a 100GB device. This means that the total storage capacity of the test cluster is 300GB (the effective capacity is still 100GB given three-way replication). This will be enough for our experiments. Then, populate some system environment:
 
@@ -35,26 +35,28 @@ After you are done with the experiments, you can shutdown the cluster with
 
 	./reset.sh 
 
-The next time you wish to resume, use the startup script again to restart the cluster, but remember to pass a `-k` parameter so that the cluster will reuse the previous setup (including the data). Otherwise, a brand new cluster will be created and all previous data will be lost.
+The next time you wish to resume, use the startup script again to restart the cluster, but remember to use the `start-keep.sh` so that the cluster will reuse the previous setup (including the data). Otherwise, a brand new cluster will be created and all previous data will be lost.
 	
-	./start.sh -k 
+	./start-keep.sh  
 
 ### 2.2. create a disk
 
 Ceph's block device interface is called `rbd`. We will be using this interface to create a disk as well as calling super and collapse.
 
-First, create and initialize a pool where the disks should reside
+<!-- First, create and initialize a pool where the disks should reside
 
 	bin/ceph osd pool create rbd    # create a pool
 	bin/rbd pool init rbd           # init the pool
 
-(You will be seeing some WARNING messages printed, please ignore them)
+(You will be seeing some WARNING messages printed, please ignore them) -->
 
-Next, create a disk image named `foo` with 1GB of size
+Now, let us create a disk image named `foo` with 1GB of size
 
 	bin/rbd create foo --size=1G    # create disk foo, 1GB in size
 
-Now you can check the the created disk image with
+(You will be seeing some WARNING messages printed, please ignore them)
+
+Then, you can check the the created disk image with
 
 	bin/rbd ls -l                   # list all disk images
 
@@ -149,3 +151,7 @@ Finally, clean up:
 	sudo umount /srv
 	sudo bin/rbd unmap /dev/rbd0
 	bin/rbd rm foo                  # remove the disk image
+
+(Optionally, you can shut down the cluster)
+
+	./reset.sh                      # shut down the cluster

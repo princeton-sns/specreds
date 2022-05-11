@@ -10,25 +10,26 @@ This artifact uses Docker as the instance pool, where applications will be runni
 
 This artifact uses `oltpbench` benchmarking framework as the clients, with the `TPC-C` workload to load up the applications.
 
-This artifact is organized linearly. Please follow the instructions below step by step to reproduce Figures 4,5,6,7 in the evaluation section of the paper.
-
 ## Contents of this repository
 
 - `ceph/` - The storage layer that provides disaggregated block-level disks and implements super and collapse for speculative recovery.
-- `traces/` - This folder contains prepared block-level traces of application recovery workload.
-- `scripts/` - This folder contains one-click scripts for running experiments and generating figures in the paper.
+- `trace/` - This folder contains prepared block-level traces of application recovery workload.
+- `script/` - This folder contains one-click scripts for running experiments and generating figures in the paper.
+- `ioutil/` - This folder contains the source code of our simple I/O benchmarking tool.
 
-## Recommended 
+## Recommended hardware setup
 
-This artifact requires only one host machine to run all the experiments. We recommend using a machine with at least 16 CPU cores, 64GB memory, and access to local SSDs (with at least 500GB of free space). Smaller setup should work as well but would take much longer to finish running the entire artifact. 
+This artifact requires only one host machine to run all the experiments. We recommend using a machine with at least 16 CPU cores, 64GB memory, and access to local SSDs (with at least 400GB of free space). Smaller setup should work as well but would take much longer to finish running the entire artifact. 
 
-The below setup of your host machine is highly recommended (and tested):
+The below setup of your host machine is highly recommended (and tested to be functional):
 - Ubuntu 20.04 with Linux kernel 5.10+ and the amd64/x86-64 architecture
-- Local SSDs with at least 500GB of space 
+- Local SSDs with at least 400GB of space 
 
-We recommend running this artifact using CloudLab c220g2 or c220g5 machines. 
+We recommend running this artifact on CloudLab c220g2 or c220g5 machines which have a 480GB local SSD. 
 
 ## Table of content
+
+This artifact is organized linearly into five parts. Please go each section below and follow the instructions step-by-step to reproduce Figures 4,5,6,7 in the evaluation section of the paper.
 
 - Step 1: Preparing the environment
 - Step 2: Warming up
