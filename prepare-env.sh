@@ -34,7 +34,7 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -yy
-
+sudo usermod -aG docker $USER    # use docker without sudo, need to re-login
 
 ################################################
 ### install python3, fio, and other packages ###
