@@ -11,7 +11,7 @@ If using our pre-configured disk image is not plausible for you, we also provide
 
 On cloudlab, start an experiment with the `small-lan` profile (this is the standard profile provided by cloudlab. If you don't see this, any profile that does not occupy the machine's SSD drive also work). Then in Step 2 Parameterize, select `UBUNTU 20.04` as the OS image and specify `c220g2` or `c220g5` as the node type (depending on the availability). 
 
-After the experiment is started, wait for it to boot up and then ssh into it. The default shell is `tsh` and we recommend `bash`. Run the following command to change the shell:
+After the experiment is started, wait for it to boot up and then ssh into it. The default shell is `tcsh` and we recommend `bash`. Run the following command to change the shell:
 
 	sudo chsh -s /bin/bash $USER    # change the default shell
 
