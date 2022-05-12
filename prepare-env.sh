@@ -56,9 +56,8 @@ cd ../
 ######################
 ### pre-build Ceph ###
 ######################
-git clone https://github.com/linanqinqin/ceph.git
-cd ceph/
 git submodule update --init --recursive
+cd ceph/
 ./install-deps.sh
 ARGS="-DCMAKE_BUILD_TYPE=RelWithDebInfo" ./do_cmake.sh
 cd ../
