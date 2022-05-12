@@ -11,6 +11,8 @@ Let us first go through some warm-up examples to get familiar with the Ceph stor
 
 To do so, we will be using a simple example to go through the workflow in speculative recovery. We will first start a Ceph cluster and create a disk image. Then, we will map the parent version of this disk image as a block device and do some file operations (pretending to be the primary application instance). Next, we will switch to the child version of the disk by using super and do some more file operations (pretending to be the backup instance). Finally, we will use collapse to deallocate one of the versions.
 
+(You do not need to remember how to correctly use these APIs, the remaining parts of this artifact all provide one-click scripts to run all experiments.)
+
 Now let us begin. First, change to the Ceph build directory:
 
 	cd /mnt/specreds/ceph/build
@@ -155,3 +157,4 @@ Finally, clean up:
 (Optionally, you can shut down the cluster)
 
 	./reset.sh                      # shut down the cluster
+
