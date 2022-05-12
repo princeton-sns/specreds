@@ -63,6 +63,7 @@ git submodule update --init --recursive
 ARGS="-DCMAKE_BUILD_TYPE=RelWithDebInfo" ./do_cmake.sh
 cd ../
 cp script/start-*.sh ceph/build/
+cp script/make.sh ceph/build/
 
 
 ##########################################
