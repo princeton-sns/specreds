@@ -1,4 +1,7 @@
 
+export CS='\033[0;31m'
+export CE='\033[0m'
+
 export DISKNAME=foo    # disk image name
 export DISKSIZE=10M    # disk size
 export OBJSIZE=64K     # object size, DO NOT CHANGE!

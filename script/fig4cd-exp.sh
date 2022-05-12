@@ -13,7 +13,7 @@ set -e
 source script/fig4-env.sh    # export variables
 
 
-echo "begin trace replay experiment (Figure 4c,d)"
+echo -e "${CS}begin trace replay experiment (Figure 4c,d)${CE}"
 # create a disk image
 cd ceph/build
 bin/rbd create ${OMAPNAME} --size=${OMAPSIZE} --object-size=${OBJSIZE}
@@ -28,7 +28,7 @@ sleep ${COOLTIME}
 #######################################
 # replaying trace on a rbd-clone disk #
 #######################################
-echo "replaying on a rbd-clone disk"
+echo -e "${CS}replaying on a rbd-clone disk${CE}"
 cd ceph/build
 bin/rbd dfork add ${OMAPNAME}@d${OMAPNAME}
 clonepath=$(sudo bin/rbd map d${OMAPNAME})
@@ -56,7 +56,7 @@ sleep ${COOLTIME}
 ###################################
 # replaying trace on a super disk #
 ###################################
-echo "replaying on a super disk"
+echo -e "${CS}replaying on a super disk${CE}"
 cd ceph/build
 bin/rbd dfork switch ${OMAPNAME} --off 
 bin/rbd dfork switch ${OMAPNAME} --on --child  # switch on child mode
@@ -85,7 +85,7 @@ sleep ${COOLTIME}
 #####################################
 # replaying trace on a regular disk #
 #####################################
-echo "replaying on a regular disk"
+echo -e "${CS}replaying on a regular disk${CE}"
 
 sudo fio --name=replay --filename=${devpath} --direct=1 \
          --ioengine=libaio --iodepth=64 \

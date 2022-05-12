@@ -14,5 +14,5 @@ source script/fig4-env.sh    # export variables
 # remove the disk image
 cd ceph/build
 bin/rbd rm ${DISKNAME} 
-echo "disk image ${DISKNAME} is removed"
+echo -e "${CS}disk image ${DISKNAME} is removed${CE}"
 cd ../../

@@ -13,7 +13,7 @@ set -e
 source script/fig4-env.sh    # export variables
 
 ## extracting percentile data
-echo 'extracting percentile data'
+echo -e "${CS}extracting percentile data${CE}"
 
 python3 script/fioLatLog2percentiles.py res/regular/${LATFILE}_lat.1.log
 python3 script/fioLatLog2percentiles.py res/super/${LATFILE}_lat.1.log
@@ -46,7 +46,7 @@ do
 done
 
 ## generating the CDF figures
-echo 'generating the CDF figures'
+echo -e "${CS}generating the CDF figures${CE}"
 python3 script/plotCDF.py rperc.csv fig-4c-rcdf.pdf
 python3 script/plotCDF.py wperc.csv fig-4d-wcdf.pdf
 mv -f *.csv res/
@@ -54,4 +54,4 @@ if [ ! -d fig ]; then
 	mkdir fig
 fi
 mv -f *.pdf fig/
-echo "****** figure generated to fig/fig-4c-rcdf.pdf,fig-4d-wcdf.pdf ******"
+echo -e "${CS}****** figure generated to fig/fig-4c-rcdf.pdf,fig-4d-wcdf.pdf ******${CE}"

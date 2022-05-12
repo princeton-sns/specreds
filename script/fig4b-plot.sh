@@ -13,7 +13,7 @@ set -e
 source script/fig4-env.sh    # export variables
 
 ## calculating average latency and generate figure 4b
-echo 'calculating average latency...'
+echo -e "${CS}calculating average latency...${CE}"
 echo 'batch size,regular,super,rbd-clone' > concow.csv
 for ((i=0; i<${#LSJOBS[@]}; i++))
 do
@@ -28,11 +28,11 @@ do
 done
 
 ## generating figure 4b
-echo 'generating figure 4b...'
+echo -e '${CS}generating figure 4b...${CE}'
 python3 script/plotConCOW.py concow.csv fig-4b-concow.pdf
 mv -f concow.csv res/
 if [ ! -d fig ]; then
 	mkdir fig
 fi
 mv -f fig-4b-concow.pdf fig/
-echo "****** figure generated to fig/fig-4b-concow.pdf ******"
+echo -e "${CS}****** figure generated to fig/fig-4b-concow.pdf ******${CE}"

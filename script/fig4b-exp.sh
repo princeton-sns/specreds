@@ -17,14 +17,14 @@ devpath=$(sudo bin/rbd map ${DISKNAME})
 cd ../../
 
 
-echo "begin concurrent COW write experiment"
-echo "    1. writing to a regular disk"
+echo -e "${CS}begin concurrent COW write experiment${CE}"
+echo -e "${CS}    1. writing to a regular disk${CE}"
 if [ ! -d res/regular ]; then
 	mkdir -p res/regular    # the folder to put all output files
 fi
 for ((i=0; i<${#LSJOBS[@]}; i++))
 do
-	echo "Concurrent COW, regular disk, num_jobs=${LSJOBS[i]}"
+	echo -e "${CS}Concurrent COW, regular disk, num_jobs=${LSJOBS[i]}${CE}"
 
 	sudo ioutil/conCOW --device=${devpath} --obj=${OBJSIZE} --size=4K --iter=${LSITER[i]} --jobs=${LSJOBS[i]}
 
@@ -34,13 +34,13 @@ sudo chown $(id -u):$(id -g) *.csv
 mv -f *.csv res/regular   # move output files
 
 ## writing to rbd clone
-echo "    2. writing to a rbd clone disk"
+echo -e "${CS}    2. writing to a rbd clone disk${CE}"
 if [ ! -d res/rbdclone ]; then
 	mkdir -p res/rbdclone    # the folder to put all output files
 fi
 for ((i=0; i<${#LSJOBS[@]}; i++))
 do
-	echo "Concurrent COW, rbd-clone disk, num_jobs=${LSJOBS[i]}"
+	echo -e "${CS}Concurrent COW, rbd-clone disk, num_jobs=${LSJOBS[i]}${CE}"
 
 	# create the disk clone
 	cd ceph/build
@@ -61,7 +61,7 @@ sudo chown $(id -u):$(id -g) *.csv
 mv -f *.csv res/rbdclone   # move output files
 
 ## writing to super
-echo "    3. writing to a super disk"
+echo -e "${CS}    3. writing to a super disk${CE}"
 if [ ! -d res/super ]; then
 	mkdir -p res/super    # the folder to put all output files
 fi
@@ -71,7 +71,7 @@ bin/rbd dfork switch ${DISKNAME} --on --child  # switch on child mode
 cd ../../ 
 for ((i=0; i<${#LSJOBS[@]}; i++))
 do
-	echo "Concurrent COW, super disk, num_jobs=${LSJOBS[i]}"
+	echo -e "${CS}Concurrent COW, super disk, num_jobs=${LSJOBS[i]}${CE}"
 
 	sudo ioutil/conCOW --device=${devpath} --obj=${OBJSIZE} --size=4K --iter=${LSITER[i]} --jobs=${LSJOBS[i]}
 
