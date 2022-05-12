@@ -73,5 +73,9 @@ cat docker-pg.tar.gz.p* > docker-pg.tar.gz
 tar -xvf docker-pg.tar.gz
 md5sum -c pg-sf2.md5sum 
 cd ../
+# prepare for fig7
+sudo mkdir -p /srv/pg
+sudo chown $(id -u):$(id -g) /srv/pg
+
 
 echo -e "\033[0;31m****** Preparation completed ******\033[0m"
