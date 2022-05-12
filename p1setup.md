@@ -31,7 +31,7 @@ Next, checkout this artifact in `/mnt` and run the script to prepare the softwar
 This `prepare-env.sh ` script does the following things in order:
 - install `oltpbench`
 - install docker engine
-- install `fio` for trace replay, `python3` and needed packages such as `pandas` and `matplotlib`
+- install `fio` for trace replay; install `python3` and needed packages such as `pandas` and `matplotlib`
 - compile `ioutil`
 - checkout the Ceph repository, install dependencies, and configure the build
 - extract the provided disk image that contains a postgres docker image
