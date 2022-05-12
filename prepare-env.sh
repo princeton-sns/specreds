@@ -80,3 +80,4 @@ sudo chown $(id -u):$(id -g) /srv/pg
 
 
 echo -e "\033[0;31m****** Preparation completed ******\033[0m"
+echo -e "\033[0;31m****** Next, Please compile Ceph ******\033[0m"
