@@ -13,7 +13,7 @@ set -e
 source script/fig4-env.sh    # export variables
 
 ## calculating average latency and generate figure 4a
-echo 'calculating average latency...'
+echo -e "${CS}calculating average latency...${CE}"
 echo 'Write size (KB),regular,super,rbd-clone' > singlecow.csv
 for wsize in 4 8 16 32 48 64
 do
@@ -28,12 +28,12 @@ do
 done
 
 ## generating figure 4a
-echo 'generating figure 4a...'
+echo -e "${CS}generating figure 4a...${CE}"
 python3 script/plotSingleCOW.py singlecow.csv fig-4a-singlecow.pdf
 mv -f singlecow.csv res/
 if [ ! -d fig ]; then
 	mkdir fig
 fi
 mv -f fig-4a-singlecow.pdf fig/
-echo "****** figure generated to fig/fig-4a-singlecow.pdf ******"
+echo -e "${CS}****** figure generated to fig/fig-4a-singlecow.pdf ******${CE}"
 

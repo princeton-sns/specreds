@@ -13,22 +13,22 @@ set -e
 source script/fig4-env.sh    # export variables
 
 
-echo "begin trace replay experiment (Figure 4c,d)"
-# # create a disk image
-# cd ceph/build
-# bin/rbd create ${OMAPNAME} --size=${OMAPSIZE} --object-size=${OBJSIZE}
-# devpath=$(sudo bin/rbd map ${OMAPNAME}) 
-# cd ../../
+echo -e "${CS}begin trace replay experiment (Figure 4c,d)${CE}"
+# create a disk image
+cd ceph/build
+bin/rbd create ${OMAPNAME} --size=${OMAPSIZE} --object-size=${OBJSIZE}
+devpath=$(sudo bin/rbd map ${OMAPNAME}) 
+cd ../../
 
-# # populate the disk, this could take a while
-# sudo ioutil/writer --device=${devpath} --omap=${OMAPFILE} --obj=${OBJSIZE}
-# sleep ${COOLTIME}
+# populate the disk, this could take a while
+sudo ioutil/writer --device=${devpath} --omap=${OMAPFILE} --obj=${OBJSIZE}
+sleep ${COOLTIME}
 
-devpath=/dev/rbd0
+# devpath=/dev/rbd0    # for testing
 #######################################
 # replaying trace on a rbd-clone disk #
 #######################################
-echo "replaying on a rbd-clone disk"
+echo -e "${CS}replaying on a rbd-clone disk${CE}"
 cd ceph/build
 bin/rbd dfork add ${OMAPNAME}@d${OMAPNAME}
 clonepath=$(sudo bin/rbd map d${OMAPNAME})
@@ -56,7 +56,7 @@ sleep ${COOLTIME}
 ###################################
 # replaying trace on a super disk #
 ###################################
-echo "replaying on a super disk"
+echo -e "${CS}replaying on a super disk${CE}"
 cd ceph/build
 bin/rbd dfork switch ${OMAPNAME} --off 
 bin/rbd dfork switch ${OMAPNAME} --on --child  # switch on child mode
@@ -85,7 +85,7 @@ sleep ${COOLTIME}
 #####################################
 # replaying trace on a regular disk #
 #####################################
-echo "replaying on a regular disk"
+echo -e "${CS}replaying on a regular disk${CE}"
 
 sudo fio --name=replay --filename=${devpath} --direct=1 \
          --ioengine=libaio --iodepth=64 \
@@ -100,7 +100,7 @@ mv -f *.log res/regular     # move output files
 
 
 # clean-up
-# cd ceph/build
-# sudo bin/rbd unmap ${OMAPNAME}
-# bin/rbd rm ${OMAPNAME}
-# cd ../../
+cd ceph/build
+sudo bin/rbd unmap ${OMAPNAME}
+bin/rbd rm ${OMAPNAME}
+cd ../../
