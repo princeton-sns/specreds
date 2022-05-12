@@ -36,6 +36,8 @@ This `prepare-env.sh ` script does the following things in order:
 - checkout the Ceph repository, install dependencies, and configure the build
 - extract the provided disk image that contains a postgres docker image
 
+After the prepare script completes, please log out from your shell and log back in for some changes to take effect.
+
 This prepare script does not build Ceph for you. To do so, after the prepare script completes, you need to run:
 
 	cd /mnt/specreds/ceph/build
