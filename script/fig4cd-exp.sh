@@ -14,17 +14,17 @@ source script/fig4-env.sh    # export variables
 
 
 echo "begin trace replay experiment (Figure 4c,d)"
-# # create a disk image
-# cd ceph/build
-# bin/rbd create ${OMAPNAME} --size=${OMAPSIZE} --object-size=${OBJSIZE}
-# devpath=$(sudo bin/rbd map ${OMAPNAME}) 
-# cd ../../
+# create a disk image
+cd ceph/build
+bin/rbd create ${OMAPNAME} --size=${OMAPSIZE} --object-size=${OBJSIZE}
+devpath=$(sudo bin/rbd map ${OMAPNAME}) 
+cd ../../
 
-# # populate the disk, this could take a while
-# sudo ioutil/writer --device=${devpath} --omap=${OMAPFILE} --obj=${OBJSIZE}
-# sleep ${COOLTIME}
+# populate the disk, this could take a while
+sudo ioutil/writer --device=${devpath} --omap=${OMAPFILE} --obj=${OBJSIZE}
+sleep ${COOLTIME}
 
-devpath=/dev/rbd0
+# devpath=/dev/rbd0    # for testing
 #######################################
 # replaying trace on a rbd-clone disk #
 #######################################
@@ -100,7 +100,7 @@ mv -f *.log res/regular     # move output files
 
 
 # clean-up
-# cd ceph/build
-# sudo bin/rbd unmap ${OMAPNAME}
-# bin/rbd rm ${OMAPNAME}
-# cd ../../
+cd ceph/build
+sudo bin/rbd unmap ${OMAPNAME}
+bin/rbd rm ${OMAPNAME}
+cd ../../
