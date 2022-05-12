@@ -27,7 +27,7 @@ cp config/*.xml oltpbench/config/
 ### install docker engine ###
 #############################
 sudo apt-get remove docker docker-engine docker.io containerd runc || true    # remove old versions
-sudo apt-get install ca-certificates curl gnupg lsb-release                   
+sudo apt-get install ca-certificates curl gnupg lsb-release -yy                  
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg 
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
@@ -36,12 +36,13 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -yy
 
 
-##########################################
-### install python3 and other packages ###
-##########################################
+################################################
+### install python3, fio, and other packages ###
+################################################
 sudo apt-get install python3 -yy 
 sudo apt-get install python3-numpy python3-matplotlib python3-pandas -yy 
 sudo apt-get install bc -yy 
+sudo apt-get install fio -yy
 
 
 ######################
