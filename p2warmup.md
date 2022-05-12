@@ -1,6 +1,6 @@
 ## Part 2: Warming up
 
-Let us first go through some warm-up examples to get familiar with the Ceph storage layer as well as the super and collapse APIs. In this section, we will be learning the following commands and use them throughout this artifact: 
+Let us first go through some warm-up examples to get familiar with the Ceph storage layer as well as the super and collapse APIs. In this section, we will be learning the following commands: 
 
 	ceph -s         # display the ceph cluster status
 	rbd create      # creates a disk image
@@ -40,6 +40,8 @@ After you are done with the experiments, you can shutdown the cluster with
 The next time you wish to resume, use the startup script again to restart the cluster, but remember to use the `start-keep.sh` so that the cluster will reuse the previous setup (including the data). Otherwise, a brand new cluster will be created and all previous data will be lost.
 	
 	./start-keep.sh  
+
+(If you see the cluster is in an unhealthy state during normal operation, you can start up a new cluster by `reset.sh` then `start-new.sh`)
 
 ### 2.2. create a disk
 
@@ -133,7 +135,7 @@ Finally, unmount the filesystem and unmap the disk
 
 ### 2.5. use collapse to deallocate the parent
 
-Now we have two independent versions of the disk. To clarify, when doing `rbd ls -l` we will only be seeing one disk `foo`. The parent and child versions of `foo` does not exist "explicitly" but only show up depending on your access mode. If you map the disk image using `rbd map`, you are in parent mode; if you map the image using `rbd super`, you are in child mode.
+Now we have two independent versions of the disk. To clarify, when doing `rbd ls -l` we will only be seeing one disk `foo`. The parent and child versions of `foo` does not exist "explicitly" but only show up when mapped as a block device depending on your access mode. If you map the disk image using `rbd map`, you are in parent mode; if you map the image using `rbd super`, you are in child mode.
 
 Next, assume that we decide to promote the child version and deallocate the parent by calling collapse:
 
