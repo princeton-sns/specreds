@@ -52,7 +52,7 @@ After build successfully completes, please proceed to part 2.
 
 If you do not have access to cloudlab, you can use our provided `qcow2` disk image that can be used to boot up a `qemu` VM. This disk image contains all software environment except for a complete build of Ceph. The requirement for the host machine is similar: amd64/x86-64 architecture with at least 400GB free space on an SSD drive. We also recommend using a machine with at least 16 CPU cores and 64GB memory. Smaller configurations should also work but requires longer to run this artifact.
 
-To start with, please download the disk image [here](). Then, place this disk image onto an SSD drive on your host machine
+To start with, please download the disk image [**here**](https://drive.google.com/file/d/1N6AIn4Bs3CyAcDZBLa09HgBaoFQ0dcNw/view?usp=sharing). Then, place this disk image onto an SSD drive on your host machine
 
 Next, on your host machine, install `qemu` (assuming Ubuntu/Debian. if you are using other distros, please search for how to install QEMU, which should be similar):
 
