@@ -6,7 +6,7 @@ The artifact of SpecREDS consists of three main parts: (1) the storage layer tha
 
 The implementation of the storage layer is based on the Ceph codebase v16.2.4. This artifact uses `Docker` as the instance pool, where applications will be running inside a docker container. This artifact uses `oltpbench` benchmark framework as the clients, with the `TPC-C` workload to load up the applications.
 
-The goal of this artifact is to reproduce the figures in the evaluation section of our ATC paper. Specifically, Figures 4, 5, 6, and 7.
+The goal of this artifact is to reproduce the figures in the evaluation section of our ATC paper. Specifically, Figures 4, 5, 6, and 7, and to serve as a starting point for readers interested in applying speculative recovery.
 
 ## Contents of this repository
 
