@@ -25,7 +25,7 @@ The goal of this artifact is to reproduce the figures in the evaluation section 
 This artifact requires only one host machine to run all the experiments. We highly recommend using cloudlab `c220g2` or `c220g5` machines where this artifact is tested to be reproducible. If not available, we recommend using a machine with at least 16 CPU cores, 64GB memory, and access to local SSDs (with at least 400GB of free space). Smaller setup should work as well but would take _significantly longer_ to finish running the entire artifact. 
 
 The below setup of your host machine is highly recommended:
-- Ubuntu 20.04 with Linux kernel 5.10+ and the amd64/x86-64 architecture
+- Ubuntu 20.04 with Linux kernel 5.4+ and the amd64/x86-64 architecture
 - A Local SSD with at least 400GB of space 
 
 
