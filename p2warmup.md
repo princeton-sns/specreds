@@ -1,5 +1,7 @@
 ## Part 2: Warming up
 
+(This part takes around 10 minutes to complete)
+
 Let us first go through some warm-up examples to get familiar with the Ceph storage layer as well as the super and collapse APIs. In this section, we will be learning the following commands: 
 
 	ceph -s         # display the ceph cluster status

@@ -1,5 +1,7 @@
 ## Part 3: disk-level I/O performance benchmark (Figure 4)
 
+(This part takes around 30 minutes to complete)
+
 Now that we have gotten familiar with the system and the APIs, the first part of the evaluation to reproduce is Figure 4 in "Section 5.2 Disk-level Performance." 
 
 Section 5.2 evaluates the disk-level I/O performance for three disk types: a regular disaggregated disk (`rbd`), a disk clone with existing Ceph clone implementation (`rbd-clone`), and a disk clone with super (`super`).
