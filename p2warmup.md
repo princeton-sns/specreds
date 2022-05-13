@@ -23,7 +23,7 @@ Ceph provides a script to start up a test cluster locally:
 
 	./start-new.sh 
 
-This starts up a cluster with three OSDs (the storage servers) each of which manages a 100GB device. This means that the total storage capacity of the test cluster is 300GB (the effective capacity is still 100GB given three-way replication). This will be enough for our experiments. Then, populate some system environment:
+This starts up a test cluster with three OSDs (the storage servers) each of which manages a 100GB device (a 100GB disk image file residing in the filesystem). This means that the total storage capacity of the test cluster is 300GB (the effective capacity is still 100GB given three-way replication). This will be enough for our experiments. Then, populate some system environment:
 
 	source vstart_environment.sh 
 

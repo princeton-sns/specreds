@@ -1,8 +1,8 @@
-## Part 4: replaying recovery traces and e2e simulation (Figures 5 and 6)
+## Part 4: replaying recovery traces and end-to-end simulation (Figures 5 and 6)
 
 (This part takes around 40 minutes to complete)
 
-In part 4, we will reproduce Figures 5 and 6 (bar figures in Section 5.3 and 5.4) in the paper. These two sections measures the latency of running application recovery workloads on the three types of disks (`rbd`, `super`, and `rbd-clone`)
+In part 4, we will reproduce Figures 5 and 6 (bar figures in Section 5.3 and 5.4) in the paper. These two sections measure the latency of running application recovery workloads on the three types of disks (`rbd`, `super`, and `rbd-clone`) and simulate end-to-end failover latency (unavailability) for various scenarios.
 
 Section 5.3 evaluates the recovery latency with various failure situations on the three types of disks: `rbd`), `super`, and `rbd-clone`. We prepared block-level traces (in `trace/`) that capture the application recovery workload for various failure situations. The naming of these trace files (`trace/*.blktrace.fio`) includes four parts: the application (pg for postgres), the database scale factor (namely, the database size), the size of WAL when failure occurred, and the type of failure (stop for docker stop, panic for kernel panic). Due to time limitation, we were only able to prepare four traces, one for mysql and three for postgres.
 
@@ -40,5 +40,13 @@ After it finishes, you would see the two figures generated as `fig/fig-5-recover
 
 
 ### Interpreting the figures
+
+Figure 5 is expected to show that the bars for `super` (blue) is close to `rbd` (greed) and much lower than `rbd-clone` (red). This is basically the same expectation translated from Figure 4's disk-level performance to Figure 5's actual application recovery performance. 
+
+We want to note that the bar group for the mysql trace shows very close performance of the three disk types. The reason is that mysql does little write workload (compared to postgres) and has a relative small database and WAL (compared to the ones we used in the paper). The negative impact of copy-on-write is only to write workload and only when writes touch on new data blocks (a small database does not span that many data blocks).
+
+For postgres traces, especially the `P/500M-postgres` one, `super` is not as close to `rbd` as shown in the paper. This is again because of the power of the supporting storage devices: `c220g5` has a low-end SSD while we used high-end NVMe SSDs in the paper, and that the test cluster uses disk image files instead of raw devices. 
+
+For Figure 6, you should be able to see that SpecREDS (using `super`) wins big in bar groups (I), (II), and (IV), which validates the main argument: if REDS uses a long time, SpecREDS wins by not using a timeout (bar groups I and II); if REDS uses a short timeout, SpecREDS wins in the case of false positives where it is able to detect them due to parallelism (the primary still has a chance to come back while the backup does recovery), and such false positives can be quite frequent when using a timeout as short as 5 seconds (in Section 5.5, our analysis of real-world traces show that the false positive rate can be as high as 90% when timeout is 10 seconds).
 
 Now, please proceed to [Part 5](https://github.com/princeton-sns/specreds/blob/main/p5perfafter.md).
