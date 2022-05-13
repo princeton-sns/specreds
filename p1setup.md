@@ -9,11 +9,9 @@ As the first step, we need to prepare the software environment necessary to run 
 
 ### Option 1: using cloudlab c220g2 or c220g5 machines (RECOMMENDED)
 
-If using our pre-configured disk image is not plausible for you, we also provide a one-click script `script/prepare-env.sh` that does all compilation and installation work. This script should work on any machine running ubuntu 20.04 on amd64/x86-64. This script does the following things in order:
-
 On cloudlab, start an experiment with the `small-lan` profile (this is the standard profile provided by cloudlab. If you don't see this, any profile that does not occupy the machine's SSD drive also work). Then in Step 2 Parameterize, select `UBUNTU 20.04` as the OS image and specify `c220g2` or `c220g5` as the node type (depending on the availability). 
 
-After the experiment is started, wait for it to boot up and then ssh into it. The default shell is `tcsh` and we recommend `bash`. Run the following command to change the shell:
+After the experiment is started, wait for it to boot up and then ssh into it. The default shell is `tcsh` but we recommend `bash`. Run the following command to change the shell:
 
 	sudo chsh -s /bin/bash $USER    # change the default shell
 
@@ -45,7 +43,7 @@ This prepare script does not build Ceph for you. To do so, after the prepare scr
 	cd /mnt/specreds/ceph/build
 	./make.sh -j$(nproc)              # c220g2/5 has enough memory to allow high concurrency
 
-Now please be patient, building Ceph takes a long time (i.e., around 30 minutes with `-j36`).
+Now please be patient, building Ceph takes a long time (i.e., around 20 minutes with `-j36`).
 
 After build successfully completes, please proceed to [Part 2](https://github.com/princeton-sns/specreds/blob/main/p2warmup.md).
 
@@ -75,6 +73,8 @@ Once inside the VM, please go to `/mnt`, check out this repository (if needed, y
 	git clone https://github.com/princeton-sns/specreds.git
 	cd specreds/
 	./prepare-env.sh 
+
+After the prepare script completes, please log out from your shell and log back in for some changes to take effect.
 
 At this point, the Ceph codebase is only configured but not built. To do so:
 

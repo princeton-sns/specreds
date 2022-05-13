@@ -4,7 +4,9 @@
 
 Now that we have gotten familiar with the system and the APIs, the first part of the evaluation to reproduce is Figure 4 in "Section 5.2 Disk-level Performance." 
 
-Section 5.2 evaluates the disk-level I/O performance for three disk types: a regular disaggregated disk (`rbd`), a disk clone with existing Ceph clone implementation (`rbd-clone`), and a disk clone with super (`super`).
+Section 5.2 evaluates the disk-level I/O performance for three disk types: a regular disaggregated disk (`rbd`), a disk clone with existing Ceph clone implementation (`rbd-clone`), and a disk clone with super (`super`). The experiments include single copy-on-write performance, concurrent copy-on-write performance, and read/write CDF figures for replaying an application recovery workload.
+
+This part provides a one-click script `script/fig4-all.sh` to run all experiments.
 
 First, change to the Ceph build directory and make sure that the Ceph cluster is running:
 

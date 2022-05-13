@@ -2,7 +2,7 @@
 
 (This part takes around 10 minutes to complete on cloudlab `c220g5`)
 
-Let us first go through some warm-up examples to get familiar with the Ceph storage layer as well as the super and collapse APIs. In this section, we will be learning the following commands (You do not need to remember how to use these APIs correctly, the remaining parts of this artifact all provide one-click scripts to run the experiments): 
+Let us first go through some warm-up examples to get familiar with the Ceph storage layer as well as the `super` and `collapse` APIs. In this section, we will be learning the following commands (You do not need to know how to use these APIs correctly, the remaining parts of this artifact all provide one-click scripts to run the experiments): 
 
 	ceph -s         # display the ceph cluster status
 	rbd create      # creates a disk image
@@ -11,7 +11,7 @@ Let us first go through some warm-up examples to get familiar with the Ceph stor
 	rbd super       # creates a disk clone and maps it as a block device with child mode
 	rbd collapse    # deallocates one version of the disk (parent or child)
 
-To do so, we will be using a simple example to go through the workflow in speculative recovery. We will first start a Ceph cluster and create a disk image. Then, we will map the parent version of this disk image as a block device and do some file operations (pretending to be the primary application instance). Next, we will switch to the child version of the disk by using super and do some more file operations (pretending to be the backup instance). Finally, we will use collapse to deallocate one of the versions.
+To do so, we will be using a simple example to go through the workflow in speculative recovery. We will first start a Ceph cluster and create a disk image. Then, we will map the parent version of this disk image as a block device and do some file operations (pretending to be the primary application instance). Next, we will switch to the child version of the disk by using super and do some more file operations (pretending to be the backup instance). Finally, we will use collapse to deallocate the parent version and promote the child (pretending a failover).
 
 (This part does not have a one-click script since it is meant to be interactive)
 
@@ -29,17 +29,17 @@ This starts up a test cluster with three OSDs (the storage servers) each of whic
 
 	source vstart_environment.sh 
 
-Now, you can check the system status by typing:
+Now, you can check the cluster status by typing:
 	
 	bin/ceph -s 
 
-If the `health` field shows `HEALTH_ERR` with `Module 'dashboard' has failed: No module named 'routes'` as the only error, this is expected and it does not impact the system's normal operations. If you see other errors, then the cluster may be truly unhealthy (this could happen at the cluster start-up time). Please wait a bit and the cluster shold clean up just fine.
+If the `health` field shows `HEALTH_ERR` with `Module 'dashboard' has failed: No module named 'routes'` as the only error, this is expected and it does not impact the cluster's normal operations. If you see other errors, then the cluster may be truly unhealthy (this could happen at the cluster start-up time). Please wait a bit and the cluster shold clean up just fine.
 
 After you are done with the experiments, you can shutdown the cluster with
 
 	./reset.sh 
 
-The next time you wish to resume, use the startup script again to restart the cluster, but remember to use the `start-keep.sh` so that the cluster will reuse the previous setup (including the data). Otherwise, a brand new cluster will be created and all previous data will be lost.
+The next time you wish to resume, use the startup script again to restart the cluster, but remember to use `start-keep.sh` so that the cluster will reuse the previous setup (including the data). Otherwise, a brand new cluster will be created and all previous data will be lost.
 	
 	./start-keep.sh  
 
@@ -47,14 +47,7 @@ The next time you wish to resume, use the startup script again to restart the cl
 
 ### 2.2. create a disk
 
-Ceph's block device interface is called `rbd`. We will be using this interface to create a disk as well as calling super and collapse.
-
-<!-- First, create and initialize a pool where the disks should reside
-
-	bin/ceph osd pool create rbd    # create a pool
-	bin/rbd pool init rbd           # init the pool
-
-(You will be seeing some WARNING messages printed, please ignore them) -->
+Ceph's block device interface is called `rbd`. We will be using this interface to create a disk as well as calling `super` and `collapse`.
 
 Now, let us create a disk image named `foo` with 1GB of size
 
@@ -62,7 +55,7 @@ Now, let us create a disk image named `foo` with 1GB of size
 
 (You will be seeing some WARNING messages printed, please ignore them)
 
-Then, you can check the the created disk image with
+Then, you can check the created disk image with
 
 	bin/rbd ls -l                   # list all disk images
 
@@ -70,7 +63,7 @@ Then, you can check the the created disk image with
 
 Now let's mount a filesystem on foo and do some file operations.
 
-First, map the disk image as a block device. By default, this maps the disk image in the parent mode, meaning that the all access to the disk is treated as the parent. In speculative recovery, this is the mode the primary instance should use.
+First, map the disk image as a block device. By default, this maps the disk image in the parent mode, meaning that the all access to the disk is treated as the parent. In speculative recovery, this is the mode the primary instance uses.
 
 	sudo bin/rbd map foo            # map a block device
 
@@ -94,13 +87,13 @@ Finally, unmount the filesystem and unmap the disk
 
 ### 2.4. do moro file operations as the child
 
-Now, we will use super to clone a child disk and do some file operations on the child as well. 
+Now, we will use `super` to clone a child disk and do some file operations on the child as well. 
 
-First, call super
+First, call `super`
 
 	sudo bin/rbd super foo          # creates and maps the child disk
 
-This command creates a child disk and maps it as a block device `/dev/rbd0`. Now all access to this disk will be treated as the child. In speculative recovery, this is the mode the backup instance should use. 
+This command creates a child disk and maps it as a block device `/dev/rbd0`. Now all access to this disk will be treated as the child. In speculative recovery, this is the mode the backup instance uses. 
 
 Next, mount the filesystem
 	
@@ -121,7 +114,7 @@ Finally, unmount the filesystem and unmap the disk
 
 ### 2.5. switch back to parent mode
 
-Now we have two disk versions, one with the `parent` file one with an additional `child` file. Let us switch back to the parent mode and check whether the content of the parent is still there. This is testing the basic isolation requirement for disk clones.
+Now we have two disk versions, one with the `parent` file one with an additional `child` file. Let us switch back to the parent mode and check whether the content of the parent is still there. This is testing the basic isolation requirement for disk clones (note that `super` only provides one-way isolation in that the child may be interfered by the parent. For more details please refer to the paper).
 
 Again, map the disk and mount the filesystem 
 
@@ -139,13 +132,13 @@ Finally, unmount the filesystem and unmap the disk
 
 Now we have two independent versions of the disk. To clarify, when doing `rbd ls -l` we will only be seeing one disk `foo`. The parent and child versions of `foo` does not exist "explicitly" but only show up when mapped as a block device depending on your access mode. If you map the disk image using `rbd map`, you are in parent mode; if you map the image using `rbd super`, you are in child mode.
 
-Next, assume that we decide to promote the child version and deallocate the parent by calling collapse:
+Next, assume that we decide to promote the child version and deallocate the parent by calling `collapse`:
 
 	bin/rbd collapse foo --promote   # collapse by promoting the child
 
-A progress bar would show up indicating the progress of the asynchronous garbage collection that is deallocating the parent. The call to collapse is a blocking operation, but the disk is not being blocked from normal I/O operations. To deallocate the child instead, use the `--abort` option. If no option specified, collapse simply returns the dirty bit value of the parent disk.
+A progress bar would show up indicating the progress of the asynchronous garbage collection that is deallocating the parent. The call to `collapse` is a synchronous operation on the terminal, but the disk is not being blocked from normal I/O operations. To deallocate the child instead, use the `--abort` option. If no option specified, `collapse` simply returns the dirty bit value of the parent disk.
 
-After the call to collapse returns, the disk image now has only one version, which is the newly promoted parent (previously the child). And now let us see its content:
+After the call to `collapse` returns, the disk image now has only one version, which is the newly promoted parent (previously the child). And now let us see its content:
 
 	sudo bin/rbd map foo            # map as the parent
 	sudo mount /dev/rbd0 /srv
