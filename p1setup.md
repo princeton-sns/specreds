@@ -85,4 +85,6 @@ Please note building Ceph with multithreading consumes a lot of memory. Please a
 
 Now please be patient, building Ceph takes a long time (i.e., around 30 minutes when using `-j36`).
 
+(You can shutdown the VM by running `sudo shutdown -h now` inside the VM. Using `sudo kill` on the host machine to kill the qemu process is not recommended)
+
 After build successfully completes, please proceed to [Part 2](https://github.com/princeton-sns/specreds/blob/main/p2warmup.md).
