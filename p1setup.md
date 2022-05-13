@@ -1,5 +1,7 @@
 ## Part 1: Preparing the environment
 
+(This part takes around 30 minutes to complete)
+
 As the first step, we need to prepare the software environment necessary to run all experiments. We provide two options, one using cloudlab c220g2 or c220g5 machine, and the other using a VM with our pre-configured disk image.
 
 **_We highly recommend using cloudlab c220g2 or c220g5 machines since it is tested to be reproducible._**
@@ -45,14 +47,14 @@ This prepare script does not build Ceph for you. To do so, after the prepare scr
 
 Now please be patient, building Ceph takes a long time (i.e., around 30 minutes with `-j36`).
 
-After build successfully completes, please proceed to part 2.
+After build successfully completes, please proceed to [Part 2](https://github.com/princeton-sns/specreds/blob/main/p2warmup.md).
 
 
 ### Option 2: pre-configured `qemu` disk image 
 
-If you do not have access to cloudlab, you can use our provided `qcow2` disk image that can be used to boot up a `qemu` VM. This disk image contains all software environment except for a complete build of Ceph. The requirement for the host machine is similar: amd64/x86-64 architecture with at least 400GB free space on an SSD drive. We also recommend using a machine with at least 16 CPU cores and 64GB memory. Smaller configurations should also work but requires longer to run this artifact.
+If you do not have access to cloudlab, you can use our provided `qcow2` disk image that can be used to boot up a `qemu` VM. This disk image provides a similar environment to Option 1 where the artifact is tested to be reproducible. The requirement for the host machine is similar: amd64/x86-64 architecture with at least 400GB free space on an SSD drive. We also recommend using a machine with at least 16 CPU cores and 64GB memory. Smaller configurations should also work but requires longer to run this artifact.
 
-To start with, please download the disk image [**here**](https://drive.google.com/file/d/1N6AIn4Bs3CyAcDZBLa09HgBaoFQ0dcNw/view?usp=sharing). Then, place this disk image onto an SSD drive on your host machine
+To start with, please download the disk image [**here**](https://drive.google.com/file/d/1N6AIn4Bs3CyAcDZBLa09HgBaoFQ0dcNw/view?usp=sharing). Then, extract and place the disk image onto an SSD drive on your host machine
 
 Next, on your host machine, install `qemu` (assuming Ubuntu/Debian. if you are using other distros, please search for how to install QEMU, which should be similar):
 
@@ -67,9 +69,14 @@ The VM process is daemonized. Now, log into the VM (the password for login is "_
 
 	ssh -p8080 qemu@localhost    # the password is qemu
 
-Inside the VM you will find this artifact located at `/mnt/specreds`, and the Ceph repository checked out and configured at `/mnt/specreds/ceph/build`. oltpbench is installed at `/mnt/oltpbench`.
+Once inside the VM, please go to `/mnt`, check out this repository, and then run the prepare script:
 
-The Ceph codebase is only configured but not yet built since the total size of compiled binaries and libraries is more than 20GB, which makes the VM disk image not so conveniently portable. Thus, the only thing left to do with our prepared VM is compiling Ceph:
+	cd /mnt
+	git clone https://github.com/princeton-sns/specreds.git
+	cd specreds/
+	./prepare-env.sh 
+
+At this point, the Ceph codebase is only configured but not built. To do so:
 
 	cd /mnt/specreds/ceph/build
 	./make.sh -j$(nproc)              # adjust the -j argument to fit your VM
@@ -78,4 +85,4 @@ Please note building Ceph with multithreading consumes a lot of memory. Please a
 
 Now please be patient, building Ceph takes a long time (i.e., around 30 minutes when using `-j36`).
 
-After build successfully completes, please proceed to part 2.
+After build successfully completes, please proceed to [Part 2](https://github.com/princeton-sns/specreds/blob/main/p2warmup.md).
