@@ -59,7 +59,7 @@ Next, on your host machine, install `qemu` (assuming Ubuntu/Debian. if you are u
 	sudo apt-get update
 	sudo apt-get install qemu-kvm
 
-We provide a script to launch VM. The script takes in three parameters: the number of CPU cores and the amount of memory (in GB) for the VM, and the path to the `qcow2` disk image. Please use `lscpu` and `grep MemTotal /proc/meminfo` (or other commands) to determine the hardware configuration of your host machine, and you should use slightly less for the VM. for example:
+We provide a script `launch-vm.sh` to launch VM (you can download this one file to your host machine or checkout the entire specreds repo). The script takes in three parameters: the number of CPU cores and the amount of memory (in GB) for the VM, and the path to the `qcow2` disk image. Please use `lscpu` and `grep MemTotal /proc/meminfo` (or other commands) to determine the hardware configuration of your host machine, and you should use slightly less for the VM. for example:
 
 	./launch-vm.sh 16 64 /mnt/u20s.qcow2   # adjust the parameters to fit your host machine
 
