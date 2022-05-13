@@ -1,6 +1,6 @@
 ## Part 4: replaying recovery traces and end-to-end simulation (Figures 5 and 6)
 
-(This part takes around 40 minutes to complete)
+(This part takes around 40 minutes to complete on cloudlab `c220g5`)
 
 In part 4, we will reproduce Figures 5 and 6 (bar figures in Section 5.3 and 5.4) in the paper. These two sections measure the latency of running application recovery workloads on the three types of disks (`rbd`, `super`, and `rbd-clone`) and simulate end-to-end failover latency (unavailability) for various scenarios.
 
@@ -36,7 +36,7 @@ To run the experiments and generate Figures 5 and 6, simply run
 
 	./script/fig5-6-all.sh           # run all experiments for figures 5&6
 
-After it finishes, you would see the two figures generated as `fig/fig-5-recovery.pdf` and `fig/fig-6-e2e.pdf`
+After it finishes, you should be able to see the two figures generated as `fig/fig-5-recovery.pdf` and `fig/fig-6-e2e.pdf`
 
 
 ### Interpreting the figures

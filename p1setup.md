@@ -1,6 +1,6 @@
 ## Part 1: Preparing the environment
 
-(This part takes around 30 minutes to complete)
+(This part takes around 30 minutes to complete on cloudlab `c220g5`)
 
 As the first step, we need to prepare the software environment necessary to run all experiments. We provide two options, one using cloudlab c220g2 or c220g5 machine, and the other using a VM with our pre-configured disk image.
 
@@ -23,7 +23,7 @@ Next, locate the SSD drive using `lsblk`, make a filesystem on it with `mkfs.ext
 
 	sudo chown $(id -u):$(id -g) /mnt
 
-Next, checkout this artifact in `/mnt` and run the script to prepare the software environment:
+Next, checkout this artifact in `/mnt` (if needed, you can switch to the tag `atc22ae`) and run the script to prepare the software environment:
 
 	cd /mnt
 	git clone https://github.com/princeton-sns/specreds.git
@@ -69,7 +69,7 @@ The VM process is daemonized. Now, log into the VM (the password for login is "_
 
 	ssh -p8080 qemu@localhost    # the password is qemu
 
-Once inside the VM, please go to `/mnt`, check out this repository, and then run the prepare script:
+Once inside the VM, please go to `/mnt`, check out this repository (if needed, you can switch to the tag `atc22ae`), and then run the prepare script:
 
 	cd /mnt
 	git clone https://github.com/princeton-sns/specreds.git

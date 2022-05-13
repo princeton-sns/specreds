@@ -36,7 +36,7 @@ This artifact is organized linearly into five parts. Please go through each sect
 - [Part 1: preparing the environment](https://github.com/princeton-sns/specreds/blob/main/p1setup.md)
 - [Part 2: warming up](https://github.com/princeton-sns/specreds/blob/main/p2warmup.md)
 - [Part 3: disk-level I/O performance benchmark (Figure 4)](https://github.com/princeton-sns/specreds/blob/main/p3diskbench.md)
-- [Part 4: replaying recovery traces and e2e simulation (Figures 5&6)](https://github.com/princeton-sns/specreds/blob/main/p4replay.md)
+- [Part 4: replaying recovery traces and end-to-end simulation (Figures 5&6)](https://github.com/princeton-sns/specreds/blob/main/p4replay.md)
 - [Part 5: performance after recovery (Figure 7)](https://github.com/princeton-sns/specreds/blob/main/p5perfafter.md)
 
 On a cloudlab `c220g5` machine, running the entire artifact takes about 2 hours.

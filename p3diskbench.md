@@ -1,6 +1,6 @@
 ## Part 3: disk-level I/O performance benchmark (Figure 4)
 
-(This part takes around 30 minutes to complete)
+(This part takes around 30 minutes to complete on cloudlab `c220g5`)
 
 Now that we have gotten familiar with the system and the APIs, the first part of the evaluation to reproduce is Figure 4 in "Section 5.2 Disk-level Performance." 
 
@@ -29,7 +29,7 @@ To run all experiments and generate all sub-figures of figure 4, simply run
 
 	./script/fig4-all.sh           # run all experiments for figure 4
 
-On cloudlab c220g2 with the local SSD, this takes around 30 minutes. After it finishes, you would see the 4 sub-figures of figure 4 generated as `fig/fig-4*.pdf`
+After it finishes, you should be able to see the 4 sub-figures of figure 4 generated as `fig/fig-4*.pdf`
 
 (These scripts can be executed alone to run part of figure 4, but each of them assumes some preconditions to be met. Please read the comments in the scripts to see what are needed before running the scripts individually. Though you do not need to do this since `script/fig4-all.sh` takes care of all figure 4)
 
